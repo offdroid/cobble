@@ -1,0 +1,54 @@
+[package]
+name = "cobble"
+version = "0.1.0"
+authors = ["Filip Skubacz <filip.skubacz00@gmail.com>"]
+edition = "2018"
+
+[features]
+default = [
+    #"bevy_rapier3d/parallel",
+    "bevy_rapier3d/simd-stable",
+    "bevy/bevy_wgpu",
+]
+
+inline_assets = []
+
+wasm = [
+    "inline_assets",
+    "bevy_webgl2",
+    "bevy_rapier3d/wasm-bindgen",
+    "rand/wasm-bindgen"
+]
+
+[dependencies]
+
+bevy_rapier3d = "0.9.0"
+nalgebra = { version = "0.25", features = ["convert-glam"] }
+
+noise = "0.7"
+rand = "0.7.3"
+
+ndarray = { version = "0.15.1", features = ["serde"] }
+
+serde = { version = "1.0", features = ["derive"] }
+serde_yaml = "0.8"
+serde_repr = "0.1.6"
+
+lazy_static = "1.4.0"
+
+kurinji = { git = "https://github.com/jacobjenks/kurinji", branch = "upgrade_bevy_0.5" }
+
+bevy = { version = "0.5", default-features=true }
+bevy_webgl2 = { version = "0.5.2", optional = true }
+
+futures = { version = "0.3", default_features = false }
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+lto = true
+opt-level = 'z'
+panic = 'abort'
+debug = false
+codegen-units = 1
